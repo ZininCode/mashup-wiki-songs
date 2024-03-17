@@ -2,15 +2,12 @@ package org.example.mashupwikisongs.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.mashupwikisongs.model.Page;
-import org.example.mashupwikisongs.model.WikiQuery;
-import org.example.mashupwikisongs.model.WikiRequest;
+
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
 
 
 @Service

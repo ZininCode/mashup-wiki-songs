@@ -26,12 +26,14 @@ public class AlbumService {
            Albums albums = restTemplate.getForObject(
                    albumUrl, Albums.class);
 
-           albums.getRelease_groups().stream()
-                   .filter(a -> a.getPrimaryType().equals("Album"))
-                   .forEach(a -> {
-                       String imageUrl = imageService.extractImageUrl(a);
-                       albumAndImageList.add(new AlbumAndImage(a.getTitle(), a.getId(), imageUrl));
-                   });
+           if (albums != null) {
+               albums.getRelease_groups().stream()
+                       .filter(a -> a.getPrimaryType().equals("Album"))
+                       .forEach(a -> {
+                           String imageUrl = imageService.extractImageUrl(a);
+                           albumAndImageList.add(new AlbumAndImage(a.getTitle(), a.getId(), imageUrl));
+                       });
+           }
        }
        catch (Exception e){
            log.info("no albums for url {}", albumUrl);

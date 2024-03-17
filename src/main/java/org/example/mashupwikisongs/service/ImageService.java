@@ -7,8 +7,7 @@ import org.example.mashupwikisongs.model.Images;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 @Service
@@ -21,9 +20,10 @@ public class ImageService {
         String albumUrl = "http://coverartarchive.org/release-group/" +album.getId();
         try {
             Images images = restTemplate.getForObject(albumUrl, Images.class);
-            imageUrl = images.getImages().isEmpty() ? "not found" : images.getImages().get(0).getImage();
+            if (images != null) {
+                imageUrl = images.getImages().isEmpty() ? "not found" : images.getImages().get(0).getImage();
+            }
         } catch (Exception e) {
-            imageUrl = "not found";
             log.info("no image found for album {} ", album.getId());
         }
         return imageUrl;
