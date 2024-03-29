@@ -4,7 +4,11 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Date: 18.02.2024
+ *
+ * @author Nikolay Zinin
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

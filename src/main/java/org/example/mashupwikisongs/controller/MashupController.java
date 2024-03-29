@@ -7,22 +7,26 @@ import org.example.mashupwikisongs.service.WikiDescriptionExtractionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/**
+ * Date: 17.02.2024
+ *
+ * @author Nikolay Zinin
+ */
 @CrossOrigin
 @RestController
 @AllArgsConstructor
 public class MashupController {
-
     private final AlbumService albumService;
     private final WikiDescriptionExtractionService wikiDescriptionExtractionService;
 
-    @GetMapping("/mashup/{mbid}")//http://localhost:8080/mashup/5b11f4ce-a62d-471e-81fc-a69a8278c7da
+    @GetMapping("/mashup/{mbid}")//for example: http://localhost:8080/mashup/5b11f4ce-a62d-471e-81fc-a69a8278c7da
     public MashupResponse getInfo(@PathVariable("mbid") String mbid) {
         //get list of albums
         List<org.example.mashupwikisongs.model.AlbumAndImage> albumsAndImages = albumService.getAlbums(mbid);
 
-        //get info from Wikipedia
+        //get artist description from Wikipedia
         String wikiExtract = wikiDescriptionExtractionService.getWikiExtract(mbid);
+
         return MashupResponse.builder()
                 .mbid(mbid)
                 .albums(albumsAndImages)

@@ -11,26 +11,28 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
+/**
+ * Date: 23.02.2024
+ *
+ * @author Nikolay Zinin
+ */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class WikiEntryServiceTest {
     private WikiEntryService wikiEntryService;
     @Mock
     private RestTemplate restTemplate;
-
     @Mock
-    WebPageEntryExtractionService webPageEntryExtractionService;
+    WebPageSearchTermExtractionService webPageSearchTermExtractionService;
     @BeforeEach
     void setUp() {
-        wikiEntryService = new WikiEntryService(restTemplate, webPageEntryExtractionService);
+        wikiEntryService = new WikiEntryService(restTemplate, webPageSearchTermExtractionService);
     }
 
     @Test
@@ -79,12 +81,12 @@ public class WikiEntryServiceTest {
                .build();
 
         when(restTemplate.getForObject(any(String.class), eq(Artist.class))).thenReturn(artist);
-        when(webPageEntryExtractionService.extractWikiEntryFromUrl(anyString(), anyString(), anyString())).thenReturn(wikiEntry);
+        when(webPageSearchTermExtractionService.extractWikiEntryFromUrl(anyString(), anyString(), anyString())).thenReturn(wikiEntry);
         String result = wikiEntryService.getEntry(mbid);
         assertEquals(wikiEntry, result);
        verify(restTemplate).getForObject(anyString(), eq(Artist.class));
        /*this line will be only executed if wikiEntry was not found via relations to Wiki
        and proceeded to search for it in webPage: */
-       verify(webPageEntryExtractionService).extractWikiEntryFromUrl(anyString(), anyString(), anyString());
+       verify(webPageSearchTermExtractionService).extractWikiEntryFromUrl(anyString(), anyString(), anyString());
     }
 }

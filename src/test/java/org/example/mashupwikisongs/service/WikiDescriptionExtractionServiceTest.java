@@ -2,10 +2,10 @@ package org.example.mashupwikisongs.service;
 
 
 
+import org.example.mashupwikisongs.config.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,8 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-
+/**
+ * Date: 23.02.2024
+ *
+ * @author Nikolay Zinin
+ */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class WikiDescriptionExtractionServiceTest {
@@ -59,11 +62,11 @@ public class WikiDescriptionExtractionServiceTest {
     public void testGetWikiExtract_WhenEntryNotFound() {
         String mbid = "test_mbid";
 
-        when(wikiEntryService.getEntry(mbid)).thenReturn("not found");
+        when(wikiEntryService.getEntry(mbid)).thenReturn(Status.NOT_FOUND);
 
         String actualWikiExtract = wikiDescriptionExtractionService.getWikiExtract(mbid);
 
-        assertEquals("not found", actualWikiExtract);
+        assertEquals(Status.NOT_FOUND, actualWikiExtract);
         verify(wikiEntryService, times(1)).getEntry(mbid);
         verify(restTemplate, never()).getForEntity(anyString(), any());
     }

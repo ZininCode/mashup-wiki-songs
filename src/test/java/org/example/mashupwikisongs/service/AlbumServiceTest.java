@@ -16,7 +16,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-
+/**
+ * Date: 23.02.2024
+ *
+ * @author Nikolay Zinin
+ */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class AlbumServiceTest {

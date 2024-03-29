@@ -7,7 +7,11 @@ import lombok.*;
 
 import java.util.List;
 
-
+/**
+ * Date: 18.02.2024
+ *
+ * @author Nikolay Zinin
+ */
 @Getter
 @Setter
 @NoArgsConstructor

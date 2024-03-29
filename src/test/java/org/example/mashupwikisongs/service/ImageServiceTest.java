@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
-
+/**
+ * Date: 23.02.2024
+ *
+ * @author Nikolay Zinin
+ */
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class ImageServiceTest {
@@ -45,7 +50,7 @@ class ImageServiceTest {
                 .images(imageList)
                 .build();
 
-        when(restTemplate.getForObject(any(String.class), any(Class.class))).thenReturn(images);
+        when(restTemplate.getForObject(any(String.class), ArgumentMatchers.eq(Images.class))).thenReturn(images);
         String imageUrl = imageService.extractImageUrl(album);
         assertEquals("http://example.com/image.jpg", imageUrl);
     }
