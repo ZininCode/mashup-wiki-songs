@@ -8,7 +8,6 @@ import org.example.mashupwikisongs.config.Url;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
 /**
  * Date: 21.02.2024
  *
@@ -36,17 +35,19 @@ public class WikiEntryService {
 
     private String findWikiUrlInMusicBrainzRelations(String musicBrainzId) {
         String musicBrainzApiRelations = Url.MUSICBRAINZ_RELATIONS_URL_PREFIX + musicBrainzId + Url.MUSICBRAINZ_RELATIONS_URL_SUFFIX;
-        Artist artist = restTemplate.getForObject(musicBrainzApiRelations, Artist.class);
-        if (artist != null) {
-            Optional<String> wikiUrl = artist.getRelations().stream()
-                    .filter(rr -> Url.WIKIPEDIA_RELATION_TYPE.equals(rr.getType()))
-                    .map(rr -> rr.getUrl().getResource())
-                    .map(urlWiki -> urlWiki.split("/"))
-                    .map(result -> result[result.length - 1])
-                    .findFirst();
-            return wikiUrl.orElse(null);
+        try {
+            Artist artist = restTemplate.getForObject(musicBrainzApiRelations, Artist.class);
+            return artist.getRelations().stream()
+                        .filter(rr -> Url.WIKIPEDIA_RELATION_TYPE.equals(rr.getType()))
+                        .map(rr -> rr.getUrl().getResource())
+                        .map(urlWiki -> urlWiki.split("/"))
+                        .map(result -> result[result.length - 1])
+                        .findFirst()
+                        .orElse(null);
         }
-        return null;
+        catch (Exception e){
+            return null;
+        }
     }
 
     private String findWikiEntryViaMusicBrainzArtistPage(String musicBrainzId) {
